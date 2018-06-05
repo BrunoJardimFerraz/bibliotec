@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<meta charset="UTF-8"></meta>
+	
+<head>
+
+	<title>AlteraçãoSenhaDeBibliotecários</title>
+	<!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css" media="screen,projection"/>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+    <style></style>
+    
+</head>
+
+<body class="nav-wrapper # f5f5f5 grey lighten-4">
+
+ 	<!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
+    
+
+   <nav>
+    	<div class="nav-wrapper #fafafa grey lighten-5">
+            	<a class="brand-logo"> <img class="responsive-img"  src="http://i67.tinypic.com/2qak09h.png"/></a>
+      			<a data-activates="mobile-demo" class="button-collapse"><i class="material-icons red-text">menu</i></a>
+      			<ul class="right hide-on-med-and-down">
+        			<li><a class="waves-effect waves-light btn" href="/menu" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">MENU DE OPÇÕES</a></li>
+        			<li><a class="waves-effect waves-light btn" href="/login" sec:authorize="!hasAnyRole('ROLE_USER','ROLE_ADMIN')">VOLTAR TELA LOGIN</a></li>
+        			<li>
+                		<form th:action="@{/logout}" method="post" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+                 			<button type="submit" data-confirm="VOCÊ DESEJA DESLOGAR?" class="btn btn-default">LOGOUT
+                			</button>
+             			</form>
+                	</li>
+            	</ul>
+      			<ul class="side-nav" id="mobile-demo">
+        			<li>
+        				<a class="waves-effect waves-light btn" href="/menu" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">MENU DE OPÇÕES</a>
+        				<li><a class="waves-effect waves-light btn" href="/login" sec:authorize="!hasAnyRole('ROLE_USER','ROLE_ADMIN')">VOLTAR TELA LOGIN</a></li>
+        			</li>
+        			<li>
+                		<form th:action="@{/logout}" method="post">
+                 			<button type="submit" data-confirm="VOCÊ DESEJA DESLOGAR?" class="btn btn-default" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">LOGOUT</button>
+             			</form>
+                	</li>
+      			</ul>
+    		</div>
+    </nav>
+    
+    
+    <script type="text/javascript">
+    	$(".button-collapse").sideNav(); 
+    	
+    	$(document).on('click', ':not(form)[data-confirm]', function(e){
+    	    if(!confirm($(this).data('confirm'))){
+    	      e.stopImmediatePropagation();
+    	      e.preventDefault();
+    			}
+    	});
+
+    	$(document).on('submit', 'form[data-confirm]', function(e){
+    	    if(!confirm($(this).data('confirm'))){
+    	    	e.stopImmediatePropagation();
+    	      e.preventDefault();
+    			}
+    	});
+    </script>
+
+
+
+	<nav>
+		<div class="center-align">
+    		<div class="#37474f blue-grey darken-3">
+        		<div class="col s12">
+                	<b><a class="breadcrumb">ALTERAR SENHA BIBLIOTECÁRIO</a></b>
+           		</div>
+           		<div>
+           			<h6 class="right hide-on-med-and-down"><th:block th:include="fragmentos/mensagemValidacao"></th:block></h6> 
+           		</div>
+        	</div>
+        </div>
+    </nav>
+
+	<br></br><br></br><br></br><br></br><br></br>
+    
+   
+    <form class="container" method="post" th:action="@{/alterarSenhaBibliotecario}" th:object="${bibliotecario}">
+	<div class="row">
+		<input type="hidden" th:field="*{bibliotecarioId}"></input>
+		<br></br>
+		<div class="input-field col s3">	
+			<input type="hidden" value="" name="bibliotecarioNome" class="validate" th:field="*{bibliotecarioNome}"/>
+		</div>
+		<div class="center-align">
+			<div class="input-field col s6">
+				<input type = "text" value="" name="bibliotecarioSenha" class="validate"/>
+				<label for="text" data-error="erro" data-success="ok">Senha</label>
+			</div>
+		</div>
+		<div class="input-field col s3">	
+			<input id="email" type="hidden" value="" name="bibliotecarioEmail" class="validate" th:field="*{bibliotecarioEmail}"/>
+		</div>
+        <div class="input-field col s3">	
+			<input type="hidden" value="" name="bibliotecarioCelular" class="validate" th:field="*{bibliotecarioCelular}"/>
+		</div>
+        <div class="input-field col s3">	
+			<input type="hidden" value="" name="bibliotecarioTurno" class="validate" th:field="*{bibliotecarioTurno}"/>
+		</div> 
+	</div>	                                                  
+	<div class="center-align">
+		<br></br><br></br><br></br><br></br><br></br>
+		<button class="waves-effect waves-light btn" type="submit"><i class="material-icons right">save</i>Salvar</button>
+	</div>
+	</form>
+	
+	
+	
+	
+	<footer class="page-footer #37474f blue-grey darken-3"   style="position:fixed;bottom:0;left:0;width:100%;">
+    	<div class="footer-copyright">
+        	<div class="container">
+            	 © 2018 Copyright 
+            	<a class="grey-text text-lighten-4 right" href="#!">Mais Links...</a>
+         	</div>
+          </div>
+	</footer>
+
+</body>
+
+</html>

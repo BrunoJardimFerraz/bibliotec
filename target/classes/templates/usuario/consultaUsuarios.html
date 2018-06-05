@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<meta charset="UTF-8"></meta>
+
+<head>
+
+	<title>ConsultaDeUsuários</title>
+	<!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
+    <!--Import jquery.dataTables.min.css-->
+    <link type="text/css" rel="stylesheet" href="materialize/css/jquery.dataTables.min.css"  media="screen,projection"/>
+	<!--Let browser know website is optimized for mobile-->
+     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+     
+    <style></style>
+     
+</head>
+
+<body class="nav-wrapper # f5f5f5 grey lighten-4">
+	
+	<!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+    <script type="text/javascript" src="materialize/js/jquery.dataTables.min.js"></script>
+    
+     <style>
+    .dataTables_filter{
+    	display:none;
+    }
+    </style>
+    
+	<nav>
+    	<div class="nav-wrapper #fafafa grey lighten-5">
+            	<a class="brand-logo"> <img class="responsive-img"  src="http://i67.tinypic.com/2qak09h.png"/></a>
+      			<a data-activates="mobile-demo" class="button-collapse"><i class="material-icons red-text">menu</i></a>
+      			<ul class="right hide-on-med-and-down">
+        			<li><a class="waves-effect waves-light btn" href="/menu">MENU DE OPÇÕES</a></li>
+        			<li>
+                		<form th:action="@{/logout}" method="post">
+                 			<button type="submit" data-confirm="VOCÊ DESEJA DESLOGAR?" class="btn btn-default">LOGOUT
+                			</button>
+             			</form>
+                	</li>
+            	</ul>
+      			<ul class="side-nav" id="mobile-demo">
+        			<li><a class="waves-effect waves-light btn" href="/menu">MENU DE OPÇÕES</a></li>
+        			<li>
+                		<form th:action="@{/logout}" method="post">
+                 			<button type="submit" data-confirm="VOCÊ DESEJA DESLOGAR?" class="btn btn-default">LOGOUT
+                			</button>
+             			</form>
+                	</li>
+      			</ul>
+    		</div>
+    </nav>
+    
+    
+    
+    
+     <script type="text/javascript">
+    	$(".button-collapse").sideNav();  
+    	
+    	$(document).on('click', ':not(form)[data-confirm]', function(e){
+    	    if(!confirm($(this).data('confirm'))){
+    	      e.stopImmediatePropagation();
+    	      e.preventDefault();
+    			}
+    	});
+
+    	$(document).on('submit', 'form[data-confirm]', function(e){
+    	    if(!confirm($(this).data('confirm'))){
+    	    	e.stopImmediatePropagation();
+    	      e.preventDefault();
+    			}
+    	});
+    	
+    	$(document).ready(function() {
+    	$('select').material_select();
+    	});
+    	
+    	$(document).ready(function () {
+             $('#example').DataTable({
+            	 "scrollY": 300,
+                 "scrollX": 300,
+                   paging: true,
+            	   "language": {
+                       "lengthMenu": "",
+                       "zeroRecords": "Nenhum registro foi encontrado",
+                       "info": "",
+                       "infoEmpty": "Nenhum registro para mostrar",
+                       "infoFiltered": "(filtrado de _MAX_ registros totais)",
+                       "search": "",
+                       "paginate": {
+                           "first": "Primeiro",
+                           "last": "Último",
+                           "next": "Próximo",
+                           "previous": "Anterior"
+                       },
+                       responsive: true,
+                   }
+               });
+           });
+    	
+    </script>
+    
+    
+    
+    
+    
+    <nav>
+    	<div class="center-align">
+    		<div class="#37474f blue-grey darken-3">
+        		<div class="col s12">
+                	<b><a class="breadcrumb">CONSULTAR USUÁRIOS</a></b>
+           		</div>
+           		<div>
+           			<h6 class="right hide-on-med-and-down"><th:block th:include="fragmentos/mensagemValidacao"></th:block></h6> 
+           		</div>
+        	</div>
+        </div>
+    </nav>
+    
+    <h6><a href="/cadastrarUsuario" sec:authorize="hasAuthority('ROLE_ADMIN')" class="waves-effect waves-light btn"><i  class="material-icons left">dehaze</i>Cadastrar Usuário</a></h6>
+	
+	<br></br>
+	
+	<form class="container" method="post" th:action="@{/consultarUsuarios}">
+    	<div class="center-align">
+    		<div class="container">
+    			<label for="text"><h5>Pesquise por qualquer informação referente as colunas abaixo.</h5></label>
+    			<input type = "text" value="" th:name="pesquisa"/>
+    			<button class="waves-effect waves-light btn" type="submit"><i class="material-icons right">search</i>Pesquisar</button>
+    		</div>
+    	</div>
+    </form>
+	
+	
+    <form class="center-align" sec:authorize="hasAuthority('ROLE_ADMIN')">
+    <table id="example" class="display compact" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th sec:authorize="hasAuthority('ROLE_ADMIN')">Deletar</th>
+				<th>Alterar Senha</th>
+				<th>Editar</th>
+				<th>Nome</th>
+				<th>R.A</th>
+				<th>RG</th>
+				<th sec:authorize="!hasAnyRole('ROLE_USER','ROLE_ADMIN')">Senha</th>
+				<th>E-mail</th>
+				<th>Celular</th>
+				<th>Curso</th>
+				<th>Semestre</th>
+				<th>Periodo</th>
+				<th sec:authorize="hasAuthority('ROLE_ADMIN')">Nº Emprestimos</th>
+				<th sec:authorize="hasAuthority('ROLE_ADMIN')">Nº Reservas</th>
+				<th sec:authorize="hasAuthority('ROLE_ADMIN')">Ativo</th>
+				<th sec:authorize="hasAuthority('ROLE_ADMIN')">Dias Inatividade</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="usuario : ${usuarios}">
+				<td><a class="waves-effect waves-light btn" data-confirm="VOCÊ DESEJA EXCLUIR ESTE USUÁRIO?" th:href="${(#mvc.url('UC#deletarUsuario').arg(0, usuario.usuarioId)).build()}"><i class="material-icons left">delete</i></a></td>
+            	<td><a class="waves-effect waves-light btn" data-confirm="VOCÊ DESEJA ALTERAR A SUA SENHA DE ACESSO?" th:href="${(#mvc.url('UC#formSenhaUsuario').arg(0, usuario.usuarioId)).build()}"><i class="material-icons left">edit</i></a></td>
+            	<td><a class="waves-effect waves-light btn" data-confirm="VOCÊ DESEJA EDITAR ESTE USUÁRIO?" th:href="${(#mvc.url('UC#editarUsuario').arg(0, usuario.usuarioId)).build()}"><i class="material-icons left">edit</i></a></td>
+				<td><span th:text="${usuario.usuarioNome}"></span></td>
+				<td><span th:text="${usuario.usuarioNumeroMatricula}"></span></td>
+				<td><span th:text="${usuario.usuarioNumeroRg}"></span></td>
+				<td sec:authorize="!hasAnyRole('ROLE_USER','ROLE_ADMIN')"><span th:text="${usuario.usuarioSenha}"></span></td>
+				<td><span th:text="${usuario.usuarioEmail}"></span></td>
+            	<td><span th:text="${usuario.usuarioCelular}"></span></td>
+            	<td><span th:text="${usuario.usuarioCurso}"></span></td>
+            	<td><span th:text="${usuario.usuarioSemestre}"></span></td>
+            	<td><span th:text="${usuario.usuarioTurno}"></span></td>
+            	<td><span th:text="${usuario.usuarioNumeroEmprestimos}"></span></td>
+            	<td><span th:text="${usuario.usuarioNumeroReservas}"></span></td>
+            	<td><span th:text="${usuario.usuarioAtivo}"></span></td>
+            	<td><span th:text="${usuario.usuarioInatividadeExpirar}"></span></td>
+			</tr>                                                           
+		</tbody>
+	</table>
+	</form>
+        
+     
+     
+     	
+   <footer sec:authorize="hasAuthority('ROLE_ADMIN')" class="page-footer #37474f blue-grey darken-3"   style="position:auto;bottom:0;left:0;width:100%;">
+    	<div class="footer-copyright">
+        	<div class="container">
+            	 © 2018 Copyright 
+            	<a class="grey-text text-lighten-4 right" href="#!">Mais Links...</a>
+         	</div>
+          </div>
+	</footer>   
+	
+
+</body>
+
+</html>

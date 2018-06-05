@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<meta charset="UTF-8"></meta>
+	
+<head>
+
+	<title>EdicaoDeUsuarios</title>
+	<!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css" media="screen,projection"/>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+    <style></style>
+    
+</head>
+
+<body class="nav-wrapper # f5f5f5 grey lighten-4">
+
+ 	<!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
+    
+
+   <nav>
+    	<div class="nav-wrapper #fafafa grey lighten-5">
+            	<a class="brand-logo"> <img class="responsive-img"  src="http://i67.tinypic.com/2qak09h.png"/></a>
+      			<a data-activates="mobile-demo" class="button-collapse"><i class="material-icons red-text">menu</i></a>
+      			<ul class="right hide-on-med-and-down">
+        			<li><a class="waves-effect waves-light btn" href="/menu" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">MENU DE OPÇÕES</a></li>
+        			<li><a class="waves-effect waves-light btn" href="/login" sec:authorize="!hasAnyRole('ROLE_USER','ROLE_ADMIN')">VOLTAR TELA LOGIN</a></li>
+        			<li>
+                		<form th:action="@{/logout}" method="post" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+                 			<button type="submit" data-confirm="VOCÊ DESEJA DESLOGAR?" class="btn btn-default">LOGOUT
+                			</button>
+             			</form>
+                	</li>
+            	</ul>
+      			<ul class="side-nav" id="mobile-demo">
+        			<li>
+        				<a class="waves-effect waves-light btn" href="/menu" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">MENU DE OPÇÕES</a>
+        				<li><a class="waves-effect waves-light btn" href="/login" sec:authorize="!hasAnyRole('ROLE_USER','ROLE_ADMIN')">VOLTAR TELA LOGIN</a></li>
+        			</li>
+        			<li>
+                		<form th:action="@{/logout}" method="post">
+                 			<button type="submit" data-confirm="VOCÊ DESEJA DESLOGAR?" class="btn btn-default" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">LOGOUT</button>
+             			</form>
+                	</li>
+      			</ul>
+    		</div>
+    </nav>
+    
+    
+    <script type="text/javascript">
+    	$(".button-collapse").sideNav(); 
+    	
+    	$(document).on('click', ':not(form)[data-confirm]', function(e){
+    	    if(!confirm($(this).data('confirm'))){
+    	      e.stopImmediatePropagation();
+    	      e.preventDefault();
+    			}
+    	});
+
+    	$(document).on('submit', 'form[data-confirm]', function(e){
+    	    if(!confirm($(this).data('confirm'))){
+    	    	e.stopImmediatePropagation();
+    	      e.preventDefault();
+    			}
+    	});
+    	
+     	$(document).ready(function () {
+			  
+   		 $('.datepicker').pickadate({
+   			 format: 'dd-mm-yyyy',
+   			 monthsFull: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+   			 monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+   			 weekdaysFull: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabádo'],
+   			 weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+   			 today: 'Hoje',
+   			 clear: 'Limpar',
+   			 close: 'Pronto',
+   			 labelMonthNext: 'Próximo mês',
+   			 labelMonthPrev: 'Mês anterior',
+   			 labelMonthSelect: 'Selecione um mês',
+   			 labelYearSelect: 'Selecione um ano',
+   			 selectMonths: true, 
+   			 selectYears: 15,
+   			 }); 
+   			 });
+    </script>
+
+
+
+	<nav>
+		<div class="center-align">
+    		<div class="#37474f blue-grey darken-3">
+        		<div class="col s12">
+                	<b><a class="breadcrumb">EDITAR CADASTRO USUÁRIO</a></b>
+           		</div>
+           		<div>
+           			<h6 class="right hide-on-med-and-down"><th:block th:include="fragmentos/mensagemValidacao"></th:block></h6> 
+           		</div>
+        	</div>
+        </div>
+    </nav>
+
+	
+	<h6><a href="/consultarUsuarios" sec:authorize="hasAuthority('ROLE_ADMIN')" class="waves-effect waves-light btn"><i  class="material-icons left">dehaze</i>Consultar Usuários</a></h6>
+	
+   
+   
+    <form class="container" method="post" th:action="@{/editarUsuario}" th:object="${usuario}">
+	<div class="row">
+		<input type="hidden" th:field="*{usuarioId}"></input>
+		<input type="hidden" value="" name="usuarioSenha" class="validate" th:field="*{usuarioSenha}"/>
+		<br></br>
+		<div class="input-field col s3">	
+			<input type = "text" value="" name="usuarioNome" class="validate" th:field="*{usuarioNome}"/>
+			<label for="text" data-error="erro" data-success="ok">Nome</label>
+		</div>
+		<div class="input-field col s3">
+			<input type = "text" value="" name="usuarioNumeroMatricula" class="validate" th:field="*{usuarioNumeroMatricula}"/>
+			<label for="text" data-error="erro" data-success="ok">R.A</label>     
+		</div>
+		<div class="input-field col s3">
+			<input type = "text" value="" name="usuarioNumeroRg" class="validate" th:field="*{usuarioNumeroRg}"/>
+			<label for="text" data-error="erro" data-success="ok">RG</label>     
+		</div>
+		
+		<div class="input-field col s3">	
+			<input type = "text" value="" name="usuarioTurno" class="validate" th:field="*{usuarioTurno}"/>
+			<label for="text" data-error="erro" data-success="ok">Periodo</label>	
+		</div>
+        <div class="input-field col s3">	
+			<input type = "text" value="" name="usuarioCelular" class="validate" th:field="*{usuarioCelular}"/>
+			<label for="text" data-error="erro" data-success="ok">Celular</label>
+		</div>
+		<div class="input-field col s3">	
+			<input id="email" type = "email" value="" name="usuarioEmail" class="validate" th:field="*{usuarioEmail}"/>
+			<label for="email" data-error="erro" data-success="ok">E-mail</label>
+		</div>
+        <div class="input-field col s3">	
+			<input type = "text" value="" name="usuarioCurso" class="validate" th:field="*{usuarioCurso}"/>
+			<label for="text" data-error="erro" data-success="ok">Curso</label>
+		</div>
+        <div class="input-field col s3">	
+			<input type = "text" value="" name="usuarioSemestre" class="validate" th:field="*{usuarioSemestre}"/>
+			<label for="text" data-error="erro" data-success="ok">Semestre</label>
+		</div>
+		
+		<div class="input-field col s3" sec:authorize="hasAuthority('ROLE_USER')">	
+			<input type = "hidden" value="" name="usuarioNumeroReservas" class="validate" th:field="*{usuarioNumeroReservas}"/>	
+		</div>
+		<div class="input-field col s3" sec:authorize="hasAuthority('ROLE_USER')" >	
+			<input type = "hidden" value="" name="usuarioNumeroEmprestimos" class="validate" th:field="*{usuarioNumeroEmprestimos}"/>
+		</div>
+		<div class="input-field col s3" sec:authorize="hasAuthority('ROLE_USER')" >	
+			<input type = "hidden" value="" name="usuarioAtivo" class="validate" th:field="*{usuarioAtivo}"/>
+		</div>
+		<div class="input-field col s3" sec:authorize="hasAuthority('ROLE_USER')" >	
+			<input type = "hidden" value="" name="usuarioInatividadeExpirar" class="validate" th:field="*{usuarioInatividadeExpirar}"/>
+		</div>
+		<div class="input-field col s3" sec:authorize="hasAuthority('ROLE_ADMIN')">	
+			<input type = "text" value="" name="usuarioNumeroReservas" class="validate" th:field="*{usuarioNumeroReservas}"/>
+			<label for="text" data-error="erro" data-success="ok">Nº Reservas</label>	
+		</div>
+		<div class="input-field col s3" sec:authorize="hasAuthority('ROLE_ADMIN')" >	
+			<input type = "text" value="" name="usuarioNumeroEmprestimos" class="validate" th:field="*{usuarioNumeroEmprestimos}"/>
+			<label for="text" data-error="erro" data-success="ok">Nº Emprestimos</label>	
+		</div>
+		<div class="input-field col s3" sec:authorize="hasAuthority('ROLE_ADMIN')">	
+			<input type = "text" value="" name="usuarioAtivo" class="validate" th:field="*{usuarioAtivo}"/>
+			<label for="text" data-error="erro" data-success="ok">Usuário Ativo</label>
+		</div>
+		<div class="input-field col s3" sec:authorize="hasAuthority('ROLE_ADMIN')">                         
+             <input  type = "text" class = "datepicker" name="usuarioInatividadeExpirar" th:field="*{usuarioInatividadeExpirar}"/>  
+             <label for="text" data-error="erro" data-success="ok">Data Restrição</label>  
+        </div>
+	</div>
+	<div class="center-align">
+		<br></br>
+		<button class="waves-effect waves-light btn" type="submit"><i class="material-icons right">save</i>Salvar</button>
+	</div>
+	</form>
+	
+	
+	
+	<footer class="page-footer #37474f blue-grey darken-3"   style="position:fixed;bottom:0;left:0;width:100%;">
+    	<div class="footer-copyright">
+        	<div class="container">
+            	 © 2018 Copyright 
+            	<a class="grey-text text-lighten-4 right" href="#!">Mais Links...</a>
+         	</div>
+          </div>
+	</footer>
+
+</body>
+
+</html>
