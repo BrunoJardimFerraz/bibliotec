@@ -1,9 +1,12 @@
 package com.biblioteca;
 
-import javax.sql.DataSource;
+import java.net.URI;
+import java.net.URISyntaxException;
+//import javax.sql.DataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+//import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -16,6 +19,29 @@ public class DataConfiguration {
 	
 	//dois Beans, 1 faz conexão com o banco e o outro Bean configura o hibernate??????
 	
+	
+	@Bean
+    public BasicDataSource dataSource() throws URISyntaxException {
+        URI dbUri = new URI(System.getenv("JAWSDB_MARIA_URL"));
+
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+
+        BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setUrl(dbUrl);
+        basicDataSource.setUsername(username);
+        basicDataSource.setPassword(password);
+
+        return basicDataSource;
+    }
+	
+
+	
+	
+/*	
+	
+	
 	@Bean //Bean de conexão com o banco
 	public DataSource dataSource() {
 			DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -25,6 +51,8 @@ public class DataConfiguration {
 			dataSource.setPassword("root"); //que ter o username e root que vc usou na sua máquina
 			return dataSource; //retorna um objeto dataSource
 			}
+			
+*/
 	
 	@Bean 
 	public JpaVendorAdapter jpaVendorAdapter() { 
