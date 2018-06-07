@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<meta charset="UTF-8"></meta>
+
+<head>
+
+	<title>EmprestimoDeObras</title>
+	<!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css"  media="screen,projection"/>
+    <!--Import jquery.dataTables.min.css-->
+    <link type="text/css" rel="stylesheet" href="/materialize/css/jquery.dataTables.min.css"  media="screen,projection"/>
+	<!--Let browser know website is optimized for mobile-->
+     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+     
+    <link type="text/css" rel="stylesheet" href="/materialize/css/bootstrap.min.css"  media="screen,projection"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    
+	<script src="/materialize/js/bootstrap-select.min.js"></script>
+	<link rel="stylesheet" href="/materialize/css/bootstrap-select.min.css"/>
+   
+    <style></style>
+    
+</head>
+
+<body class="nav-wrapper # f5f5f5 grey lighten-4">
+
+ 	<!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
+    <script type="text/javascript" src="/materialize/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/materialize/js/bootstrap.min.js"></script>
+
+ 	<nav>
+    	<div class="nav-wrapper #fafafa grey lighten-5">
+            	<a class="brand-logo"> <img class="responsive-img"  src="http://i67.tinypic.com/2qak09h.png"/></a>
+      			<a data-activates="mobile-demo" class="button-collapse"><i class="material-icons red-text">menu</i></a>
+      			<ul class="right hide-on-med-and-down">
+        			<li><a class="waves-effect waves-light btn" href="/menu">MENU DE OPÇÕES</a></li>
+        			<li>
+                		<form th:action="@{/logout}" method="post">
+                 			<button type="submit" data-confirm="VOCÊ DESEJA DESLOGAR?" class="btn btn-default">LOGOUT
+                			</button>
+             			</form>
+                	</li>
+            	</ul>
+      			<ul class="side-nav" id="mobile-demo">
+        			<li><a class="waves-effect waves-light btn" href="/menu">MENU DE OPÇÕES</a></li>
+        			<li>
+                		<form th:action="@{/logout}" method="post">
+                 			<button type="submit" data-confirm="VOCÊ DESEJA DESLOGAR?" class="btn btn-default">LOGOUT
+                			</button>
+             			</form>
+                	</li>
+      			</ul>
+    		</div>
+    </nav>
+    
+   
+    
+     <script type="text/javascript">
+     	$(".button-collapse").sideNav(); 
+     	
+     	$(document).on('click', ':not(form)[data-confirm]', function(e){
+    	    if(!confirm($(this).data('confirm'))){
+    	      e.stopImmediatePropagation();
+    	      e.preventDefault();
+    			}
+    	});
+
+    	$(document).on('submit', 'form[data-confirm]', function(e){
+    	    if(!confirm($(this).data('confirm'))){
+    	    	e.stopImmediatePropagation();
+    	      e.preventDefault();
+    			}
+    	});
+     	
+     	$(document).ready(function () {
+    			  
+    		 $('.datepicker').pickadate({
+    			 format: 'dd-mm-yyyy',
+    			 monthsFull: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+    			 monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+    			 weekdaysFull: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabádo'],
+    			 weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+    			 today: 'Hoje',
+    			 clear: 'Limpar',
+    			 close: 'Pronto',
+    			 labelMonthNext: 'Próximo mês',
+    			 labelMonthPrev: 'Mês anterior',
+    			 labelMonthSelect: 'Selecione um mês',
+    			 labelYearSelect: 'Selecione um ano',
+    			 selectMonths: true, 
+    			 selectYears: 15,
+    			 }); 
+    			 });
+    </script>
+
+
+
+	<nav>
+		<div class="center-align">
+    		<div class="#37474f blue-grey darken-3">
+        		<div class="col s12">
+                	<b><a class="breadcrumb">CADASTRAR OBRA</a></b>
+           		</div>
+           		<div>
+           			<h6 class="right hide-on-med-and-down"><th:block th:include="fragmentos/mensagemValidacao"></th:block></h6> 
+           		</div>
+        	</div>
+        </div>
+    </nav>
+
+
+	
+	<h6><a href="/consultarAcervo" class="waves-effect waves-light btn"><i class="material-icons left">dehaze</i>Consultar Acervo</a></h6>
+	
+	
+
+    <form class="container" method="post" th:action="@{/cadastrarObra}" th:object="${obra}">
+	<div class="row">
+		<input type="hidden" th:field="*{obraId}"></input>
+		<br></br>
+		<div class="input-field col s6">	
+			<input type = "text" value="" name="obraTitulo" class="validate" th:field="*{obraTitulo}"/>
+			<label for="text" data-error="erro" data-success="ok">Título</label>
+		</div>
+		<div class="input-field col s6">	
+			<input type = "text" value="" name="obraSubtitulo" class="validate" th:field="*{obraSubtitulo}"/>
+			<label for="text" data-error="erro" data-success="ok">Subtítulo</label>
+		</div>
+		<div class="input-field col s3">                         
+               <input  type = "text" class = "datepicker" name="obraDataPublicacao" th:field="*{obraDataPublicacao}"/>  
+               <label for="text" data-error="erro" data-success="ok">Data Publicação</label>  
+        </div>
+		<div class="input-field col s3">	
+			<input type = "text" value="" name="obraTipoDocumento" class="validate" th:field="*{obraTipoDocumento}"/>
+			<label for="text" data-error="erro" data-success="ok">Tipo Documento</label>
+		</div>
+		<div class="input-field col s3">	
+			<input type = "text" value="" name="obraCidadePublicacao" class="validate" th:field="*{obraCidadePublicacao}"/>
+			<label for="text" data-error="erro" data-success="ok">Cidade Publicação</label>
+		</div>
+		<div class="input-field col s3">	
+			<input type = "text" value="" name="obraNumeroEdicao" class="validate" th:field="*{obraNumeroEdicao}"/>
+			<label for="text" data-error="erro" data-success="ok">Nº Edição</label>
+		</div>
+     	<div class="input-field col s3">	
+			<input type = "text" value="" name="obraEditora" class="validate" th:field="*{obraEditora}"/>
+			<label for="text" data-error="erro" data-success="ok">Editora</label>
+		</div>
+		<div class="input-field col s3">	
+			<input type = "text" value="" name="obraPalavraChave" class="validate" th:field="*{obraPalavraChave}"/>
+			<label for="text" data-error="erro" data-success="ok">Palavra-Chave</label>
+		</div>
+		<div class="input-field col s3">	
+			<input type = "text" value="" name="obraAutor" class="validate" th:field="*{obraAutor}"/>
+			<label for="text" data-error="erro" data-success="ok">Autor</label>
+		</div>  
+		<div class="input-field col s3">	
+			<input type = "text" value="" name="obraCdu" class="validate" th:field="*{obraCdu}"/>
+			<label for="text" data-error="erro" data-success="ok">CDU</label>
+		</div>
+		<div class="input-field col s3">	
+			<input type = "text" value="" name="obraPha" class="validate" th:field="*{obraPha}"/>
+			<label for="text" data-error="erro" data-success="ok">PHA</label>
+		</div>
+		<div class="input-field col s3">	
+			<input type = "number" value="" name="obraTotalPagina" class="validate" th:field="*{obraTotalPagina}"/>
+			<label for="number" data-error="erro" data-success="ok">Total Páginas</label>
+		</div>
+		<div class="input-field col s3">	
+			<input type = "text" value="" name="obraIsbn" class="validate" th:field="*{obraIsbn}"/>
+			<label for="text" data-error="erro" data-success="ok">ISBN</label>
+		</div>
+		<div class="input-field col s3">	
+			<input type = "text" value="" name="obraEmprestado" class="validate" th:field="*{obraEmprestado}"/>
+			<label for="text" data-error="erro" data-success="ok">Emprestado</label>
+		</div> 
+		<div class="input-field col s3">	
+			<input type = "text" value="" name="obraReservado" class="validate" th:field="*{obraReservado}"/>
+			<label for="text" data-error="erro" data-success="ok">Reservado</label>
+		</div> 
+		<div class="input-field col s3">	
+			<!-- <input type = "hidden" value="" name="obraTombo" class="validate" th:field="*{obraTombo}"/> -->
+			<input type = "hidden" value="" name="obraTombo" th:field="*{obraTombo}"/>
+			<!-- <label for="number" data-error="erro" data-success="ok">Tombo</label> -->
+		</div>  
+		<div class="input-field col s3">
+			<br></br><br></br><br></br>
+		</div>
+		
+		<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+		<div class="container">
+			<div class="center-align">
+				<button class="waves-effect waves-light btn" type="submit"><i class="material-icons right">save</i>Salvar</button>
+			</div>
+		</div>	
+	</div>
+	</form>
+	
+	
+	
+	<footer class="page-footer #37474f blue-grey darken-3"  style="position:auto;bottom:0;left:0;width:100%;">
+    	<div class="footer-copyright">
+        	<div class="container">
+            	 © 2018 Copyright 
+            	<a class="grey-text text-lighten-4 right" href="#!">Mais Links...</a>
+         	</div>
+          </div>
+	</footer> 
+
+</body>
+
+</html>

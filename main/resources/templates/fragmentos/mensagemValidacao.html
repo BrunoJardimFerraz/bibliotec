@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html lang="pt"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://thymeleaf.org">
+	
+<head>
+</head>
+
+<body>
+	<div class="alert alert-sucess alert-dismissible" role ="alert" th:if="${not #strings.isEmpty(mensagem)}"> 
+		<script type="text/javascript">
+			$(document).ready(function() {
+			  Materialize.toast(html='<p style="font-size:1.2em" th:text="${mensagem}"></p>', displayLength=20000, classes="center");
+			});
+		</script>
+	</div>
+</body>
+
+</html>
