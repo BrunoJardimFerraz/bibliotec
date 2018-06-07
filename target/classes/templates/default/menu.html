@@ -94,16 +94,16 @@
 		<div class="center-align">
     		<ul class="collection with-header">
         		<li class="collection-header "><h5>OPÇÕES</h5></li>
-        		<li class="collection-item" sec:authorize="hasAuthority('ROLE_USER')"><div>VISUALIZAR/ALTERAR MEUS DADOS CADASTRAIS<a href="consultarUsuario" class="secondary-content"><i class="material-icons">send</i></a></div></li>
-        		<li class="collection-item" sec:authorize="hasAuthority('ROLE_ADMIN')"><div>VISUALIZAR/ALTERAR MEUS DADOS CADASTRAIS<a href="consultarBibliotecario" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+        		<li class="collection-item" sec:authorize="hasAuthority('ROLE_USER')"><div>VISUALIZAR/ALTERAR CADASTRO<a href="consultarUsuario" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+        		<li class="collection-item" sec:authorize="hasAuthority('ROLE_ADMIN')"><div>VISUALIZAR/ALTERAR CADASTRO<a href="consultarBibliotecario" class="secondary-content"><i class="material-icons">send</i></a></div></li>
         		<li class="collection-item" sec:authorize="hasAuthority('ROLE_ADMIN')"><div>CADASTRAR USUÁRIO<a href="cadastrarUsuario" class="secondary-content"><i class="material-icons">send</i></a></div></li>
         		<li class="collection-item" sec:authorize="hasAuthority('ROLE_ADMIN')"><div>CADASTRAR BIBLIOTECÁRIO<a href="cadastrarBibliotecario" class="secondary-content"><i class="material-icons">send</i></a></div></li>
         		<li class="collection-item" sec:authorize="hasAuthority('ROLE_ADMIN')"><div>CADASTRAR OBRA<a href="cadastrarObra" class="secondary-content"><i class="material-icons">send</i></a></div></li>
-       	 		<li class="collection-item" sec:authorize="hasAuthority('ROLE_ADMIN')"><div>REALIZAR EMPRÉSTIMO (OBRAS RESERVADAS)<a href="emprestarObraReservada" class="secondary-content"><i class="material-icons">send</i></a></div></li>
-       	 		<li class="collection-item" sec:authorize="hasAuthority('ROLE_ADMIN')"><div>REALIZAR EMPRÉSTIMO (OBRAS NÃO RESERVADAS)<a href="emprestarObraNaoReservada" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+       	 		<li class="collection-item" sec:authorize="hasAuthority('ROLE_ADMIN')"><div>EMPRESTAR(OBRAS RESERVADAS)<a href="emprestarObraReservada" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+       	 		<li class="collection-item" sec:authorize="hasAuthority('ROLE_ADMIN')"><div>EMPRESTAR(OBRAS NÃO RESERVADAS)<a href="emprestarObraNaoReservada" class="secondary-content"><i class="material-icons">send</i></a></div></li>
        	 		<li class="collection-item" sec:authorize="hasAuthority('ROLE_USER')"><div>CONSULTAR ACERVO/RESERVAR OBRAS<a href="consultarAcervo" class="secondary-content"><i class="material-icons">send</i></a></div></li>
        	 		<li class="collection-item" sec:authorize="hasAuthority('ROLE_ADMIN')"><div>CONSULTAR ACERVO<a href="consultarAcervo" class="secondary-content"><i class="material-icons">send</i></a></div></li>
-       	 		<li class="collection-item" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><div>CONSULTAR EMPRÉSTIMOS/RENOVAR EMPRÉSTIMOS<a href="consultarEmprestimo" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+       	 		<li class="collection-item" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><div>CONSULTAR/RENOVAR EMPRÉSTIMOS<a href="consultarEmprestimo" class="secondary-content"><i class="material-icons">send</i></a></div></li>
        			<li class="collection-item" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><div>CONSULTAR RESERVAS<a href="consultarReserva" class="secondary-content"><i class="material-icons">send</i></a></div></li>
        	 		<li class="collection-item" sec:authorize="hasAuthority('ROLE_ADMIN')"><div>CONSULTAR USUÁRIOS<a href="consultarUsuarios" class="secondary-content"><i class="material-icons">send</i></a></div></li>
        	 		<li class="collection-item" sec:authorize="hasAuthority('ROLE_ADMIN')"><div>CONSULTAR BIBLIOTECÁRIOS<a href="consultarBibliotecarios" class="secondary-content"><i class="material-icons">send</i></a></div></li>
